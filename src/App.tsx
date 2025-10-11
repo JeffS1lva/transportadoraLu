@@ -22,8 +22,6 @@ export const TransportPlatform = () => {
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [quoteStep, setQuoteStep] = useState(1);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
-  const [typedText, setTypedText] = useState('');
-  const [cursorVisible, setCursorVisible] = useState(true);
   
   interface TrackingResult {
     code: string;
@@ -40,44 +38,7 @@ export const TransportPlatform = () => {
   
   const [trackingResult, setTrackingResult] = useState<TrackingResult | null>(null);
 
-  const phrases = ["Move o Brasil", "Conecta Empresas", "Entrega Resultados", "Impulsiona Negócios"];
-  const [phraseIndex, setPhraseIndex] = useState(0);
-
-  // Efeito de digitação
-  useEffect(() => {
-    let charIndex = 0;
-    const currentPhrase = phrases[phraseIndex];
-    
-    const typingInterval = setInterval(() => {
-      if (charIndex <= currentPhrase.length) {
-        setTypedText(currentPhrase.slice(0, charIndex));
-        charIndex++;
-      } else {
-        clearInterval(typingInterval);
-        setTimeout(() => {
-          const erasingInterval = setInterval(() => {
-            if (charIndex > 0) {
-              setTypedText(currentPhrase.slice(0, charIndex));
-              charIndex--;
-            } else {
-              clearInterval(erasingInterval);
-              setPhraseIndex((prev) => (prev + 1) % phrases.length);
-            }
-          }, 50);
-        }, 2000);
-      }
-    }, 100);
-
-    return () => clearInterval(typingInterval);
-  }, [phraseIndex]);
-
-  // Cursor piscante
-  useEffect(() => {
-    const cursorInterval = setInterval(() => {
-      setCursorVisible(prev => !prev);
-    }, 500);
-    return () => clearInterval(cursorInterval);
-  }, []);
+  const [_phraseIndex, _setPhraseIndex] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -400,8 +361,7 @@ export const TransportPlatform = () => {
             <h1 className="text-6xl lg:text-8xl font-bold mb-6">
               Logística que{' '}
               <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                {typedText}
-                <span className={`${cursorVisible ? 'opacity-100' : 'opacity-0'} transition-opacity`}>|</span>
+                Move o Brasil
               </span>
             </h1>
             
@@ -956,3 +916,5 @@ export const TransportPlatform = () => {
     </div>
   );
 };
+
+export default TransportPlatform;
